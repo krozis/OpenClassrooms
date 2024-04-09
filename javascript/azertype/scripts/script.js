@@ -1,53 +1,62 @@
 
-
-
-function displayScore(score, maxScore, scoreZone)
+function	displayScore(score, maxScore)
 {
+	let	scoreZone = document.querySelector(".zoneScore span");
 	scoreZone.innerText = `${score}/${maxScore}`;
 }
 
-function choseMode()
+function	writeInZone(zone, toWrite)
 {
-	let buffer = "";
-	while (buffer != "words" && buffer != "sentences")
-		buffer = prompt("Choose mode: 'sentences' or 'words'");
-	return (buffer);
+	zone.innerText = `${toWrite}`;
 }
 
-function gameLoop(list, mode)
-{
-	let	score = 0;
-	let	buffer = "";
-
-	for (let i = 0; i < list.length; i++)
-	{
-		buffer = prompt("Enter the " + mode + ": " + list[i]);
-		if (buffer === list[i])
-			score++;
-	}
-	return (score);
-}
-
-function launchGame()
+function	launchGame()
 {
 	let	input = document.getElementById("inputEcriture");
-	let	validBtn = document.getElementById("btnValiderMot");
 	let toWrite = document.querySelector(".zoneProposition");
-	let	scoreZone = document.querySelector(".zoneScore span");
+	let	validBtn = document.getElementById("btnValiderMot");
 	let mode = document.querySelectorAll(".optionSource input")
 	
+	let i = 0;
 	let score = 0;
-	let maxScore = 0;
 
-	if (choseMode() === "words")
+	let	chosenList = wordList;
+
+	writeInZone(toWrite, chosenList[i]);
+	displayScore(score, i);
+	mode.forEach(btn => 
 	{
-		score = gameLoop(wordList, "word");
-		maxScore = wordList.length;
-	}
-	else
+		btn.addEventListener("change", () =>
+		{
+			if (mode[0].checked)
+				chosenList = wordList;
+			else
+				chosenList = sentList;
+			i = 0;
+			score = 0;
+			validBtn.disabled = false;
+			writeInZone(toWrite, chosenList[i]);
+			displayScore(score, i);
+			console.log("mode changed to :" + (mode[0].checked ? "words" : "sentences"));
+		});
+	});
+
+	validBtn.addEventListener("click", () =>
 	{
-		score = gameLoop(sentList, "sentence");
-		maxScore = sentList.length;
-	}
-	displayScore(score, maxScore, scoreZone);
+		console.log("input value: " + input.value);
+		if (input.value === chosenList[i])
+			score++;
+		input.value = "";
+		i++;
+		if (i < chosenList.length)
+			writeInZone(toWrite, chosenList[i]);
+		else
+		{
+			writeInZone(toWrite, "Game is now over.");
+			validBtn.disabled = true;
+		}
+		displayScore(score, i);
+	});	
+
+	//displayScore(score, i, scoreZone);
 }
