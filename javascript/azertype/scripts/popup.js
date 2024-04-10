@@ -1,4 +1,4 @@
-function	displayPopup()
+	function	displayPopup()
 {
 	let	popup = document.querySelector(".popupBackground")
 
@@ -12,14 +12,23 @@ function	hidePopup()
 	popup.classList.remove("active");
 }
 
-function	displayMail(name, mail, score)
+function	displayMail(name, mail)
 {
+	let	scoreElement = document.querySelector(".zoneScore span");
+	score = scoreElement.innerText;
 	let mailto = `mailto:${mail}?subject=Partage du score Azertype&body=Salut, je suis ${name} et je viens de réaliser le score ${score} sur le site d'Azertype !`
     location.href = mailto
 }
 
-function	initPopup(score)
+function	initPopup()
 {
+	// prevent default event on the form
+	let form = document.querySelector("form");
+	form.addEventListener("submit", (event) => 
+	{
+		event.preventDefault();		// prevent from refreshing the page (default behavior)
+	});
+
 	// Click on the "Partager" button
 	let shareBtn = document.getElementById("sendBtn");
 	shareBtn.addEventListener("click", () =>
@@ -28,25 +37,22 @@ function	initPopup(score)
 		displayPopup();
 	});
 	
-	// Click on the background
-	let	popupBackground = document.querySelector(".popupBackground");
-	popupBackground.addEventListener("click", (event) =>
+	// Click on close button
+	let	closeBtn = document.getElementById("close");
+	closeBtn.addEventListener("click", () =>
 	{
-		if (event.target == popupBackground)
 			hidePopup();
 	});
 
-	// Event on the form
- 	let form = document.querySelector("form");
-	form.addEventListener("submit", (event) => 
+	// Click on the "Envoyer" button
+	let	sendBtn = document.getElementById("btnEnvoyerMail");
+	sendBtn.addEventListener("click", () =>
 	{
-		event.preventDefault();		// prevent from refreshing the page (default behavior)
 		let	nameInput = document.getElementById("nom");
 		let	name = nameInput.value;
 		let	mailInput = document.getElementById("email");
 		let mail = mailInput.value;
+		displayMail(name, mail);
 		console.log(name, mail);
-		displayMail(name, mail, score);
-	});
-
+	})
 }

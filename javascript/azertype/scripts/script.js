@@ -1,41 +1,4 @@
 
-/* 
-function	launchGame()
-{
-	let	input = document.getElementById("inputEcriture");
-	let i = 0;
-	let score = 0;
-	let	chosenList = wordList;
-
-	displayProposition(chosenList[i]);
-	displayScore(score, i);
-
-	// Handle the click on the "Valider" button
-	let	validBtn = document.getElementById("btnValiderMot");
-	validBtn.addEventListener("click", () =>
-	{
-		console.log("input value: " + input.value);
-		if (input.value === chosenList[i])
-			score++;
-		input.value = "";
-		i++;
-		if (i < chosenList.length)
-			writeInZone(toWrite, chosenList[i]);
-		else
-		{
-			writeInZone(toWrite, "Game is now over.");
-			validBtn.disabled = true;
-		}
-		displayScore(score, i);
-	});	
-
-			// Handle the form usage
-	popupForm(score + "/" + i);
-}
- */
-
-
-
 /**
  * @brief Fill the "zoneScore" span of the HTML page
  * @param {number} score 
@@ -56,7 +19,6 @@ function	displayProposition(toWrite)
 	let zone = document.querySelector(".zoneProposition");
 	zone.innerText = `${toWrite}`;
 }
-
 
 /**
  * @brief launch the Azertype game

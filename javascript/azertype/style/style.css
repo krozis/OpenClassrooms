@@ -220,8 +220,6 @@ footer {
     z-index: 1;
 }
 
-
-
 .active {
     display: flex !important;
 }
@@ -244,6 +242,12 @@ footer {
 
 .popup button {
     margin: 5px;
+}
+
+#close {
+	position: absolute;
+	top: 5px;
+	right: 5px;
 }
 
 /** 
