@@ -4,13 +4,14 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>AzerType</title>
     <!-- Inclusion du fichier css pour le style du jeu -->
     <link rel="stylesheet" href="style/style.css">
 
     <!-- Inclusion des 3 scripts nécessaires pour faire fonctionner le jeu -->
     <!-- Attention, l'ordre des fichiers js est important.  -->
     <script src="scripts/config.js" defer></script>
+    <script src="scripts/popup.js" defer></script>
     <script src="scripts/script.js" defer></script>
     <script src="scripts/main.js" defer></script>
 </head>
@@ -47,9 +48,11 @@
             Votre score : <span>0</span>
         </div>
 
-        <div class="zonePartage">
-            <button>Partager</button>
-        </div>
+		<form>
+			<div class="zonePartage">
+				<button id="sendBtn">Partager</button>
+			</div>
+		</form>
         
     </main>
 
@@ -62,7 +65,7 @@
     <div class="popupBackground">
         <div class="popup">
             <div>Partagez votre score</div>
-            <form novalidate>
+            <form>
                 <label for="nom">Votre nom</label>
                 <input type="text" id="nom" name="nom" placeholder="Votre nom">
                 <label for="email">Avec qui voulez-vous partager votre score ?</label>

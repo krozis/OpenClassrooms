@@ -1,46 +1,17 @@
 
-function	displayScore(score, maxScore)
-{
-	let	scoreZone = document.querySelector(".zoneScore span");
-	scoreZone.innerText = `${score}/${maxScore}`;
-}
-
-function	writeInZone(zone, toWrite)
-{
-	zone.innerText = `${toWrite}`;
-}
-
+/* 
 function	launchGame()
 {
 	let	input = document.getElementById("inputEcriture");
-	let toWrite = document.querySelector(".zoneProposition");
-	let	validBtn = document.getElementById("btnValiderMot");
-	let mode = document.querySelectorAll(".optionSource input")
-	
 	let i = 0;
 	let score = 0;
-
 	let	chosenList = wordList;
 
-	writeInZone(toWrite, chosenList[i]);
+	displayProposition(chosenList[i]);
 	displayScore(score, i);
-	mode.forEach(btn => 
-	{
-		btn.addEventListener("change", () =>
-		{
-			if (mode[0].checked)
-				chosenList = wordList;
-			else
-				chosenList = sentList;
-			i = 0;
-			score = 0;
-			validBtn.disabled = false;
-			writeInZone(toWrite, chosenList[i]);
-			displayScore(score, i);
-			console.log("mode changed to :" + (mode[0].checked ? "words" : "sentences"));
-		});
-	});
 
+	// Handle the click on the "Valider" button
+	let	validBtn = document.getElementById("btnValiderMot");
 	validBtn.addEventListener("click", () =>
 	{
 		console.log("input value: " + input.value);
@@ -58,5 +29,94 @@ function	launchGame()
 		displayScore(score, i);
 	});	
 
-	//displayScore(score, i, scoreZone);
+			// Handle the form usage
+	popupForm(score + "/" + i);
+}
+ */
+
+
+
+/**
+ * @brief Fill the "zoneScore" span of the HTML page
+ * @param {number} score 
+ * @param {number} maxScore 
+ */
+function	displayScore(score, maxScore)
+{
+	let	scoreZone = document.querySelector(".zoneScore span");
+	scoreZone.innerText = `${score}/${maxScore}`;
+}
+
+/**
+ * @brief Fill the "zoneProposition" div of the HTML page
+ * @param {string} toWrite 
+ */
+function	displayProposition(toWrite)
+{
+	let zone = document.querySelector(".zoneProposition");
+	zone.innerText = `${toWrite}`;
+}
+
+
+/**
+ * @brief launch the Azertype game
+ */
+function	launchGame()
+{
+	let	chosenList = wordList;
+	let	score = 0;
+	let	total = 0;
+
+	initPopup();
+	displayProposition(wordList[total]);
+
+	// Handle player input
+	let	playerInput = document.getElementById("inputEcriture");
+
+	// handle validation with the button
+	let	validationBtn = document.getElementById("btnValiderMot");
+	validationBtn.addEventListener("click", () =>
+	{
+		console.log("submitted: " + playerInput.value);
+		if (playerInput.value === chosenList[total])
+			score++;
+		total++;
+		displayScore(score, total);
+		playerInput.value = "";
+		if (chosenList[total] === undefined)
+		{
+			displayProposition("Game is now over.");
+			validationBtn.disabled = true;
+		}
+		else
+			displayProposition(chosenList[total]);
+	});
+
+	// Handle validation with "Enter"
+	playerInput.addEventListener("keypress", (event) =>
+	{
+		if (event.key === "Enter")
+		{
+			const clickEvent = new Event("click");
+			validationBtn.dispatchEvent(clickEvent);
+		}
+	});
+
+	// Handle mode change
+	{
+		let mode = document.querySelectorAll(".optionSource input");
+		for (i = 0; i < mode.length; i++)
+		{
+			mode[i].addEventListener("change", (event) => 
+			{
+				if (event.target.value === "1")
+					chosenList = wordList;
+				else
+					chosenList = sentList;
+				displayProposition(chosenList[total]);
+			});
+		}
+	}
+	
+	displayScore(score, total);
 }
