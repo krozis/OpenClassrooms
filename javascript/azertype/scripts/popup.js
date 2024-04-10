@@ -1,3 +1,16 @@
+function	displayErrorMessage(message)
+{
+	let	spanErrMsg = document.getElementById("errorMessage");
+	if (!spanErrMsg)  // Reuse if exists, to avoid multiple creation
+	{
+		let	popup = document.querySelector(".popup");
+		spanErrMsg = document.createElement("span");
+		spanErrMsg.id = "errorMessage";
+		popup.append(spanErrMsg);
+	}
+	spanErrMsg.innerText = message;
+}
+
 function	displayPopup()
 {
 	let	popup = document.querySelector(".popupBackground")
@@ -7,9 +20,21 @@ function	displayPopup()
 
 function	hidePopup()
 {
-	let	popup = document.querySelector(".popupBackground")
-
+	// disable popup
+	let	popup = document.querySelector(".popupBackground");
 	popup.classList.remove("active");
+
+	// delete previous error message
+	let	spanErrMsg = document.getElementById("errorMessage");
+	if (spanErrMsg)
+		spanErrMsg.remove();
+
+	// flush name and mail
+	let	nameInput = document.getElementById("nom");
+	let	mailInput = document.getElementById("email");
+
+	nameInput.value = "";
+	mailInput.value = "";
 }
 
 function	displayMail(name, mail)
@@ -23,13 +48,32 @@ function	displayMail(name, mail)
 function	checkName(name)
 {
 	let	regex = new RegExp("[a-zA-Z]{2,}"); //minimum 2 letters (upper/lower accepted);
-	return (regex.test(name));
+		if (!regex.test(name.value))
+		{
+			console.log("Error, invalid name");
+			name.classList.add("error");
+			throw new Error("name is not valid");
+		}
+		else
+		{
+			name.classList.remove("error");
+		}
 }
 
 function	checkMail(mail)
 {
-	let	regex = new RegExp("[a-z0-9._-]+@[a-z0-9._-]+\.[a-z0-9._-]+");
-	return (regex.test(mail));
+	let	regex = new RegExp("[a-z0-9._-]+@[a-z0-9._-]+\\.[a-z0-9._-]+");
+	if (!regex.test(mail.value))
+	{
+		console.log("Error, invalid mail");
+		mail.classList.add("error");
+		throw new Error("eMail is not valid");
+	}
+	else
+	{
+		mail.classList.remove("error");
+	}
+
 }
 
 function	initPopup()
@@ -61,31 +105,20 @@ function	initPopup()
 	let	sendBtn = document.getElementById("sendMailForm");
 	sendBtn.addEventListener("submit", (event) =>
 	{
-		let	nameInput = document.getElementById("nom");
-		let	name = nameInput.value;
-		let	mailInput = document.getElementById("email");
-		let mail = mailInput.value;
-	
-		if (!checkName(name))
+		event.preventDefault();
+		try
 		{
-			console.log("Error, invalid name");
-			nameInput.classList.add("error");
-			nameInput.classList.remove("correct");
+			let	nameInput = document.getElementById("nom");
+			let	mailInput = document.getElementById("email");
+			checkName(nameInput);
+			checkMail(mailInput);
+			displayMail(nameInput.value, mailInput.value);
+			console.log("sent mail with values :", nameInput.value, mailInput.value);
 		}
-		else if (!checkMail(mail))
+		catch(error)
 		{
-			console.log("Error, invalid mail");
-			mailInput.classList.add("error");
-			mailInput.classList.remove("correct");
-		}
-		else
-		{
-			nameInput.classList.remove("error");
-			nameInput.classList.add("correct");
-			mailInput.classList.remove("error");
-			mailInput.classList.add("correct");
-			displayMail(name, mail);
-			console.log(name, mail);
+			displayErrorMessage(error.message);
+			console.log(error);
 		}
 	})
 }

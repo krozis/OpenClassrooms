@@ -1,5 +1,16 @@
 
 /**
+ * @brief set to mode "words" by default
+ */
+function	initMode()
+{
+	let mode = document.querySelectorAll(".optionSource input");
+	mode[1].checked = false;
+	mode[0].checked = true;
+	return (wordList)
+}
+
+/**
  * @brief Fill the "zoneScore" span of the HTML page
  * @param {number} score 
  * @param {number} maxScore 
@@ -25,10 +36,10 @@ function	displayProposition(toWrite)
  */
 function	launchGame()
 {
-	let	chosenList = wordList;
 	let	score = 0;
 	let	total = 0;
 
+	chosenList = initMode();
 	initPopup();
 	displayProposition(wordList[total]);
 
@@ -65,20 +76,17 @@ function	launchGame()
 	});
 
 	// Handle mode change
+	let mode = document.querySelectorAll(".optionSource input");
+	for (i = 0; i < mode.length; i++)
 	{
-		let mode = document.querySelectorAll(".optionSource input");
-		for (i = 0; i < mode.length; i++)
+		mode[i].addEventListener("change", (event) => 
 		{
-			mode[i].addEventListener("change", (event) => 
-			{
-				if (event.target.value === "1")
-					chosenList = wordList;
-				else
-					chosenList = sentList;
-				displayProposition(chosenList[total]);
-			});
-		}
+			if (event.target.value === "1")
+				chosenList = wordList;
+			else
+				chosenList = sentList;
+			displayProposition(chosenList[total]);
+		});
 	}
-	
 	displayScore(score, total);
 }
