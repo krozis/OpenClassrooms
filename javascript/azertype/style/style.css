@@ -250,6 +250,17 @@ footer {
 	right: 5px;
 }
 
+.popup .error {
+    border: 2px solid red;
+    box-shadow: 0 0 5px red;
+}
+
+.popup .correct
+{
+	border: 1px solid #ccc;
+	box-shadow: none;
+}
+
 /** 
  * Responsive
  */
