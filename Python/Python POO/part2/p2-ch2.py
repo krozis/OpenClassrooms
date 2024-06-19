@@ -17,7 +17,7 @@ class	ImageFile(File):
 
 	pass
 
-class User:
+class	User:
 	"""User class"""
 
 	def	__init__(self, username, password):
@@ -51,7 +51,7 @@ class User:
 		"""User representation"""
 		return (self.username)
 	
-class Moderator(User):
+class	Moderator(User):
 	""" Moderator User class"""
 
 	def	edit(self, post, content):
@@ -65,7 +65,7 @@ class Moderator(User):
 		index = thread.posts.index(post)
 		del thread.posts[index]
 
-class Post:
+class	Post:
 	"""Message class"""
 
 	def __init__(self, user, time_posted, content):
@@ -81,7 +81,7 @@ class Post:
 		print(f"Message posted by {self.user} at {self.time_posted} :")
 		print(self.content)
 
-class FilePost(Post):
+class	FilePost(Post):
 	"""Message with a file class"""
 
 	def	__init__(self, user, time_posted, content, file):
@@ -98,7 +98,7 @@ class FilePost(Post):
 		print("attached file:")
 		self.file.display()
 
-class Thread:
+class	Thread:
 	"""Discussion thread class"""
 
 	def __init__(self, title, time_posted, post):
