@@ -1,5 +1,4 @@
-from card_game.cards.cards import Card, CARD_SUITS, CARD_RANKS
-# from card_game.cards.deck import Deck
+from card_game.deck import Card
 
 
 class Hand(list):
